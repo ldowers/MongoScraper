@@ -1,7 +1,40 @@
-<h1>MongoScraper App: Home</h1>
-<div id="articles"></div>
-<div id="notes"></div>
+{{!--Navigation Bar--}}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Star Wars News Scraper</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Saved Articles</a></li>
+            <li><button type="button" class="btn btn-danger" id="scrapeButton">SCRAPE NEW ARTICLES!</button></li>
+        </ul>
+    </div>
+</nav>
 
-{{!--Scripts--}}
+<div class="jumbotron" id="title">
+    <h1>Mongo Scraper</h1>
+    <h2 class="starwars-font">Star Wars News Edition</h2>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            {{#each articles}}
+            <div class="panel panel-primary">
+                <div class="panel-heading articleHeading">
+                    <a href={{this.link}} class="articleLink">{{this.title}}</a>
+                    <span><button type="button" class="btn btn-success saveArticleButton">SAVE ARTICLE</button></span>
+                </div>
+                <div class="panel-body">{{this.link}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+{{!--
+<div id="articles"></div>
+<div id="notes"></div>--}} {{!--Scripts--}}
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="/js/app.js"></script>

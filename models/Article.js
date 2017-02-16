@@ -17,6 +17,11 @@ var ArticleSchema = new Schema({
     required: true,
     unique: true
   },
+  // saved is a boolean that defaults to false
+  saved: {
+    type: Boolean,
+    default: false
+  },
   // notes array property for the article, ref refers to the Note model
   notes: [{
     // Store ObjectIds in the array
