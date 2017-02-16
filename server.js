@@ -1,22 +1,32 @@
 // Dependencies
 var express = require("express");
+var exphbs  = require('express-handlebars');
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+
 // Requiring our Note and Article models
 var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
+
 // Our scraping tools
 var request = require("request");
 var cheerio = require("cheerio");
+
 // Mongoose mpromise deprecated - use bluebird promises
 var Promise = require("bluebird");
 
 mongoose.Promise = Promise;
 
+// Initialize PORT variable
+var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
+
+// Use express-handlebars
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Use morgan and body parser with our app
 app.use(logger("dev"));
@@ -28,7 +38,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/week18day3mongoose");
+mongoose.connect("mongodb://localhost/newsdb");
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -41,19 +51,18 @@ db.once("open", function() {
   console.log("Mongoose connection successful.");
 });
 
-
 // Routes
 // ======
 
-// Simple index route
+// Simple home page route
 app.get("/", function(req, res) {
-  res.send(index.html);
+  res.render("home");
 });
 
-// A GET request to scrape the echojs website
+// A GET request to scrape the Star Wars news website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
-  request("http://www.echojs.com/", function(error, response, html) {
+  request("http://www.starwars.com/news", function(error, response, html) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html);
     // Now, we grab every h2 within an article tag, and do the following:
@@ -81,7 +90,6 @@ app.get("/scrape", function(req, res) {
           console.log(doc);
         }
       });
-
     });
   });
   // Tell the browser that we finished scraping the text
@@ -155,6 +163,6 @@ app.post("/articles/:id", function(req, res) {
 
 
 // Listen on port 3000
-app.listen(3000, function() {
-  console.log("App running on port 3000!");
+app.listen(PORT, function() {
+  console.log("App running on port %s.", PORT);
 });
