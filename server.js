@@ -36,7 +36,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/newsdb");
+// mongoose.connect("mongodb://localhost/newsdb");
+mongoose.connect("mongodb://heroku_8dh0n8x7:m2ohftgf54tk8bnufrpqk69499@ds153659.mlab.com:53659/heroku_8dh0n8x7");
 var db = mongoose.connection;
 
 // Show any mongoose errors
