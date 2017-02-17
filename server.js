@@ -25,19 +25,27 @@ var PORT = process.env.PORT || 3000;
 var app = express();
 
 // Use express-handlebars
-app.engine("handlebars", exphbs({defaultLayout: "main"}));
+app.engine("handlebars", exphbs({
+  defaultLayout: "main"
+}));
 app.set("view engine", "handlebars");
 
 // Use morgan and body parser with our app
 app.use(logger("dev"));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
 // Make public a static dir
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-// mongoose.connect("mongodb://localhost/newsdb");
-mongoose.connect("mongodb://heroku_8dh0n8x7:m2ohftgf54tk8bnufrpqk69499@ds153659.mlab.com:53659/heroku_8dh0n8x7");
+if (PORT === 3000) {
+  mongoose.connect("mongodb://localhost/newsdb");
+} else {
+  mongoose.connect("mongodb://heroku_8dh0n8x7:m2ohftgf54tk8bnufrpqk69499@ds153659.mlab.com:53659/heroku_8dh0n8x7");
+}
+
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -125,10 +133,12 @@ app.get("/articles", function (req, res) {
 app.get("/articles/:id", function (req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the
   // matching one in our db...
-  Article.findOne({"_id": req.params.id})
-  // ..and populate all of the notes associated with it
+  Article.findOne({
+      "_id": req.params.id
+    })
+    // ..and populate all of the notes associated with it
     .populate("note")
-  // now, execute our query
+    // now, execute our query
     .exec(function (error, doc) {
       // Log any errors
       if (error) {
@@ -154,9 +164,11 @@ app.post("/articles/:id", function (req, res) {
     } else {
       // Use the article id to find and update it's note
       Article.findOneAndUpdate({
-        "_id": req.params.id
-      }, {"note": doc._id})
-      // Execute the above query
+          "_id": req.params.id
+        }, {
+          "note": doc._id
+        })
+        // Execute the above query
         .exec(function (err, doc) {
           // Log any errors
           if (err) {
