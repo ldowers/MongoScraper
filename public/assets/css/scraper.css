@@ -32,3 +32,8 @@
 .articleLink {
     color: white;
 }
+
+.modal-body {
+    font-size: 32px;
+    text-align: center;
+}

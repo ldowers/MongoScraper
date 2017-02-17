@@ -17,6 +17,9 @@ var ArticleSchema = new Schema({
     required: true,
     unique: true
   },
+  body: {
+    type: String
+  },
   // saved is a boolean that defaults to false
   saved: {
     type: Boolean,
