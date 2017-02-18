@@ -4,7 +4,8 @@ $(document)
 
     function handleScrapeButton() {
       console.log("Scrape Button Clicked");
-      $.get("/scrape")
+      $
+        .get("/scrape")
         .then(function (data) {
           $("#scrapeModal").modal();
         })
@@ -17,11 +18,31 @@ $(document)
 
     function handleSaveArticleButton() {
       console.log("Save Article Button Clicked");
+      var route = "/save/"  + $(this).val();
+      $
+        .post(route)
+        .then(function (data) {
+          console.log("Article saved");
+          window.location.reload();
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    };
+
+    $(document).on("click", ".deleteArticleButton", handleDeleteArticleButton);
+
+    function handleDeleteArticleButton() {
+      console.log("Delete Article Button Clicked");
+      var route = "/delete/"  + $(this).val();
+      $
+        .post(route)
+        .then(function (data) {
+          console.log("Article deleted");
+          window.location.reload();
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
     };
   });
-
-// // Grab the articles as a json $.getJSON("/articles", function(data) {   //
-// For each one   for (var i = 0; i < data.length; i++) {     // Display the
-// apropos information on the page     $("#articles").append("<p data-id='" +
-// data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");   }
-// });

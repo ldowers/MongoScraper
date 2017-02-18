@@ -55,10 +55,13 @@ db.once("open", function () {
   console.log("Mongoose connection successful.");
 });
 
-// Routes ====== Home page route
+// Routes ======
+// Home route
 app.get("/", function (req, res) {
   Article
-    .find({}, function (error, doc) {
+    .find({
+      saved: false
+    }, function (error, doc) {
       if (error) {
         console.log(error);
       } else {
@@ -66,6 +69,23 @@ app.get("/", function (req, res) {
           articles: doc
         };
         res.render('home', hbsObject);
+      }
+    });
+});
+
+// Saved Articles route
+app.get("/saved", function (req, res) {
+  Article
+    .find({
+      saved: true
+    }, function (error, doc) {
+      if (error) {
+        console.log(error);
+      } else {
+        var hbsObject = {
+          articles: doc
+        };
+        res.render('article', hbsObject);
       }
     });
 });
@@ -114,8 +134,8 @@ app.get("/scrape", function (req, res) {
         }
       });
     });
-    // Tell the browser that we finished scraping the text
-    res.send("Scrape Complete");
+
+    res.redirect("/");
   });
 });
 
@@ -181,6 +201,38 @@ app.post("/articles/:id", function (req, res) {
         });
     }
   });
+});
+
+app.post("/save/:id", function (req, res) {
+  // Use the article id to find and update it's saved status
+  Article.findOneAndUpdate({
+    "_id": req.params.id
+  }, {"saved": true})
+  // Execute the above query
+    .exec(function (err, doc) {
+      // Log any errors
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/");
+      }
+    });
+});
+
+app.post("/delete/:id", function (req, res) {
+  // Use the article id to find and update it's saved status
+  Article.findOneAndUpdate({
+    "_id": req.params.id
+  }, {"saved": false})
+  // Execute the above query
+    .exec(function (err, doc) {
+      // Log any errors
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/saved");
+      }
+    });
 });
 
 // Listen on port 3000
