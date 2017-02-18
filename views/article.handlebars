@@ -26,11 +26,11 @@
                 <div class="panel-heading articleHeading">
                     <a href={{this.link}} class="articleLink">{{this.title}}</a>
                     <span class="pull-right">
-                        <button type="button" class="btn btn-success articleNotesButton">ARTICLE NOTES</button>
+                        <button type="button" class="btn btn-success articleNotesButton" value={{this.id}}>ARTICLE NOTES</button>
                         <button type="button" class="btn btn-danger deleteArticleButton" value={{this.id}}>DELETE FROM SAVED</button>
                     </span>
                 </div>
-                <div class="panel-body">{{this.body}}</div>
+                <div class="panel-body articleBody">{{this.body}}</div>
             </div>
             {{/each}}
         </div>
@@ -45,7 +45,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Notes for Article: </h4>
+                <h4 class="modal-title" id="notesTitle">Notes for Article: </h4>
             </div>
             <div class="modal-body">
                 <p>New Note</p>

@@ -1,5 +1,6 @@
 $(document)
   .ready(function () {
+    // Scrape New Articles Button
     $(document).on("click", "#scrapeButton", handleScrapeButton);
 
     function handleScrapeButton() {
@@ -14,6 +15,7 @@ $(document)
         });
     };
 
+    // Save Article Button
     $(document).on("click", ".saveArticleButton", handleSaveArticleButton);
 
     function handleSaveArticleButton() {
@@ -30,6 +32,7 @@ $(document)
         });
     };
 
+    // Delete Article From Saved Button
     $(document).on("click", ".deleteArticleButton", handleDeleteArticleButton);
 
     function handleDeleteArticleButton() {
@@ -44,5 +47,13 @@ $(document)
         .catch(function (err) {
           console.log(err);
         });
+    };
+
+    $(document).on("click", ".articleNotesButton", handleArticleNotesButton);
+
+    function handleArticleNotesButton() {
+      console.log("Article Notes Button Clicked");
+      $("#notesTitle").text("Notes for Article: " + $(this).val());
+      $("#notesModal").modal();
     };
   });
