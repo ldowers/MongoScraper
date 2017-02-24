@@ -20,6 +20,13 @@
     margin-top: 7px;
 }
 
+#noArticlesPanel {
+    font-size: 24px;
+    text-align: center;
+    color: white;
+    background-color: orange;
+}
+
 .articleHeading {
     overflow: auto;
     font-size: 24px;
@@ -40,4 +47,12 @@
 
 .articleNotesButton {
     background: purple;
+}
+
+#notesTitle, .noteBody {
+    text-align: center;
+}
+
+.noteRecord {
+    overflow: auto;
 }

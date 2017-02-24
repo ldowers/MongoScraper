@@ -20,12 +20,14 @@ $(document)
 
     function handleSaveArticleButton() {
       console.log("Save Article Button Clicked");
-      var route = "/save/"  + $(this).val();
+      var route = "/saveArticle/" + $(this).val();
       $
         .post(route)
         .then(function (data) {
           console.log("Article saved");
-          window.location.reload();
+          window
+            .location
+            .reload();
         })
         .catch(function (err) {
           console.log(err);
@@ -37,23 +39,62 @@ $(document)
 
     function handleDeleteArticleButton() {
       console.log("Delete Article Button Clicked");
-      var route = "/delete/"  + $(this).val();
+      var route = "/deleteArticle/" + $(this).val();
       $
         .post(route)
         .then(function (data) {
           console.log("Article deleted");
-          window.location.reload();
+          window
+            .location
+            .reload();
         })
         .catch(function (err) {
           console.log(err);
         });
     };
 
+    // Article Notes Button
     $(document).on("click", ".articleNotesButton", handleArticleNotesButton);
 
     function handleArticleNotesButton() {
       console.log("Article Notes Button Clicked");
       $("#notesTitle").text("Notes for Article: " + $(this).val());
-      $("#notesModal").modal();
+      var route = "/notes/" + $(this).val();
+      $(".saveNoteButton").data("article", $(this).val());
+      $
+        .get(route)
+        .then(function (data) {
+          console.log("Notes: " + data.notes);
+          if (data.notes.length > 0) {
+            $(".noteBody").empty();
+            for (var i = 0; i < data.notes.length; i++) {
+              $(".noteBody").append('<div class="noteRecord">' + data.notes[i].body + '<span class="pull-right"> <button type="button" class="btn btn-danger deleteNoteButton">X</button> </span></div>');
+            }
+          }
+          else {
+            $(".noteBody").text("No notes for this article yet.");
+          }
+          $("#notesModal").modal();
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    };
+
+    // Save Note Button
+    $(document).on("click", ".saveNoteButton", handleSaveNoteButton);
+
+    function handleSaveNoteButton() {
+      console.log("Save Note Button Clicked");
+      var route = "/saveNote/" + $(".saveNoteButton").data("article");
+      $
+        .post(route, {noteText: $("#noteText").val()})
+        .then(function (data) {
+          console.log("Note saved");
+          $("#noteText").empty();
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
     };
   });

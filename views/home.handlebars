@@ -31,6 +31,13 @@
                 <div class="panel-body articleBody">{{this.body}}</div>
             </div>
             {{/each}}
+            {{#unless articles}}
+            <div class="panel panel-default">
+                <div class="panel-heading" id="noArticlesPanel">
+                    Uh Oh. Looks like we don't have any new articles.
+                </div>
+            </div>
+            {{/unless}}
         </div>
     </div>
 </div>

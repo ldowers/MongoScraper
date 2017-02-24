@@ -26,13 +26,20 @@
                 <div class="panel-heading articleHeading">
                     <a href={{this.link}} class="articleLink">{{this.title}}</a>
                     <span class="pull-right">
-                        <button type="button" class="btn btn-success articleNotesButton" value={{this.id}}>ARTICLE NOTES</button>
+                  <button type="button" class="btn btn-success articleNotesButton" value={{this.id}}>ARTICLE NOTES</button>
                         <button type="button" class="btn btn-danger deleteArticleButton" value={{this.id}}>DELETE FROM SAVED</button>
                     </span>
                 </div>
                 <div class="panel-body articleBody">{{this.body}}</div>
             </div>
             {{/each}}
+            {{#unless articles}}
+            <div class="panel panel-default">
+                <div class="panel-heading" id="noArticlesPanel">
+                    Uh Oh. Looks like we don't have any saved articles.
+                </div>
+            </div>
+            {{/unless}}
         </div>
     </div>
 </div>
@@ -48,10 +55,19 @@
                 <h4 class="modal-title" id="notesTitle">Notes for Article: </h4>
             </div>
             <div class="modal-body">
-                <p>New Note</p>
+
+                <div class="panel panel-default">
+                    <div class="panel-body noteBody">No notes for this article yet.</div>
+                </div>
+
+                <form>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="5" id="noteText" placeholder="New Note"></textarea>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">SAVE NOTE</button>
+                <button type="button" class="btn btn-success saveNoteButton" data-article="" data-dismiss="modal">SAVE NOTE</button>
             </div>
         </div>
 
