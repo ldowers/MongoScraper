@@ -68,10 +68,11 @@ $(document)
           if (data.notes.length > 0) {
             $(".noteBody").empty();
             for (var i = 0; i < data.notes.length; i++) {
-              $(".noteBody").append('<div class="noteRecord">' + data.notes[i].body + '<span class="pull-right"> <button type="button" class="btn btn-danger deleteNoteButton">X</button> </span></div>');
+              $(".noteBody").append('<div class="noteRecord">' + data.notes[i].body + 
+              '<span class="pull-right"> <button type="button" class="btn btn-danger deleteNoteButton" value="' +
+              data.notes[i]._id + '">X</button> </span></div>');
             }
-          }
-          else {
+          } else {
             $(".noteBody").text("No notes for this article yet.");
           }
           $("#notesModal").modal();
@@ -88,10 +89,32 @@ $(document)
       console.log("Save Note Button Clicked");
       var route = "/saveNote/" + $(".saveNoteButton").data("article");
       $
-        .post(route, {noteText: $("#noteText").val()})
+        .post(route, {
+          noteText: $("#noteText").val()
+        })
         .then(function (data) {
           console.log("Note saved");
           $("#noteText").empty();
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    };
+
+    // Delete Note Button
+    $(document).on("click", ".deleteNoteButton", handleDeleteNoteButton);
+
+    function handleDeleteNoteButton() {
+      console.log("Delete Note Button Clicked");
+      var noteID = $(this).val();
+      var route = "/deleteNote/" + $(".saveNoteButton").data("article");
+      $
+        .post(route, {noteID: noteID})
+        .then(function (data) {
+          console.log("Note deleted");
+          window
+            .location
+            .reload();
         })
         .catch(function (err) {
           console.log(err);

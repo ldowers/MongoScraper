@@ -55,8 +55,7 @@ db.once("open", function () {
   console.log("Mongoose connection successful.");
 });
 
-// Routes ======
-// Home route
+// Routes ====== Home route
 app.get("/", function (req, res) {
   Article
     .find({
@@ -238,6 +237,36 @@ app.post("/deleteArticle/:id", function (req, res) {
         console.log(err);
       } else {
         res.redirect("/saved");
+      }
+    });
+});
+
+app.post("/deleteNote/:id", function (req, res) {
+  var noteID = req.body.noteID;
+  // Use the article id to find and update it's saved status
+  Article.findOneAndUpdate({
+    "_id": req.params.id
+  }, {
+    $pop: {
+      "notes": noteID
+    }
+  })
+  // Execute the above query
+    .exec(function (err, doc) {
+      // Log any errors
+      if (err) {
+        console.log(err);
+      } else {
+        Note.remove({"_id": noteID})
+        // Execute the above query
+          .exec(function (err, doc) {
+            // Log any errors
+            if (err) {
+              console.log(err);
+            } else {
+              res.redirect("/saved");
+            }
+          });
       }
     });
 });
