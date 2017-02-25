@@ -94,7 +94,7 @@ $(document)
         })
         .then(function (data) {
           console.log("Note saved");
-          $("#noteText").empty();
+          $("#noteText").val("");
         })
         .catch(function (err) {
           console.log(err);
