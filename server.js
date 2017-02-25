@@ -247,7 +247,7 @@ app.post("/deleteNote/:id", function (req, res) {
   Article.findOneAndUpdate({
     "_id": req.params.id
   }, {
-    $pop: {
+    $pull: {
       "notes": noteID
     }
   })
