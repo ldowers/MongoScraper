@@ -8,6 +8,8 @@ $(document)
       $
         .get("/scrape")
         .then(function (data) {
+          console.log("Count: " + data.count);
+          $("#numArticles").text("Added " + data.count + " new articles!");
           $("#scrapeModal").modal();
         })
         .catch(function (err) {
@@ -15,6 +17,16 @@ $(document)
         });
     };
 
+    // Scrape Close Button
+    $(document).on("click", ".scrapeCloseButton", handleScrapeCloseButton);
+
+    function handleScrapeCloseButton() {
+      console.log("Scrape Close Button Clicked");
+      window
+        .location
+        .reload();
+    };
+    
     // Save Article Button
     $(document).on("click", ".saveArticleButton", handleSaveArticleButton);
 
@@ -68,9 +80,8 @@ $(document)
           if (data.notes.length > 0) {
             $(".noteBody").empty();
             for (var i = 0; i < data.notes.length; i++) {
-              $(".noteBody").append('<div class="noteRecord">' + data.notes[i].body + 
-              '<span class="pull-right"> <button type="button" class="btn btn-danger deleteNoteButton" value="' +
-              data.notes[i]._id + '">X</button> </span></div>');
+              $(".noteBody").append('<div class="noteRecord">' + data.notes[i].body + '<span class="pull-right"> <button type="button" class="btn btn-danger deleteNote' +
+                  'Button" value="' + data.notes[i]._id + '">X</button> </span></div>');
             }
           } else {
             $(".noteBody").text("No notes for this article yet.");
